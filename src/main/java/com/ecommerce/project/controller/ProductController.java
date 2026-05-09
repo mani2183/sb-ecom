@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api")
@@ -47,20 +50,26 @@ public class ProductController {
 
 
     @PostMapping("/admin/categories/{categoryId}/product")
-    public ResponseEntity<ProductDTO> addProduct(@RequestBody Product product ,
+    public ResponseEntity<ProductDTO> addProduct(@RequestBody ProductDTO productDTO ,
                                                  @PathVariable Long categoryId){
-        ProductDTO savedProductDTO = productService.addProduct(product,categoryId);
+        ProductDTO savedProductDTO = productService.addProduct(productDTO,categoryId);
         return new ResponseEntity<>(savedProductDTO, HttpStatus.CREATED);
     }
     @PutMapping("/admin/products/{productId}")
-    public ResponseEntity<ProductDTO> updateProduct(@RequestBody Product product ,
+    public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO ,
                                                  @PathVariable Long productId){
-        ProductDTO savedProductDTO = productService.updateProduct(product,productId);
+        ProductDTO savedProductDTO = productService.updateProduct(productDTO,productId);
         return new ResponseEntity<>(savedProductDTO, HttpStatus.OK);
     }
     @DeleteMapping("/admin/products/{productId}")
     public ResponseEntity<ProductDTO> deleteProduct(@PathVariable Long productId){
         ProductDTO productDTO=productService.deleteProduct(productId);
         return new ResponseEntity<>(productDTO, HttpStatus.OK);
+    }
+    @PutMapping("/products/{productId}/image")
+    public ResponseEntity<ProductDTO> updateProductImage(@PathVariable Long productId,
+                                                         @RequestParam("image")MultipartFile image) throws IOException {
+        ProductDTO productDTO = productService.updateProductImage(productId,image);
+        return ResponseEntity.ok(productDTO);
     }
 }
