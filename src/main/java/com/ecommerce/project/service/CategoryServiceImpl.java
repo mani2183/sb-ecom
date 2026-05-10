@@ -1,7 +1,7 @@
 package com.ecommerce.project.service;
 
 import com.ecommerce.project.exceptions.ApiException;
-import com.ecommerce.project.exceptions.ResourceNotFountException;
+import com.ecommerce.project.exceptions.ResourceNotFoundException;
 import com.ecommerce.project.model.Category;
 import com.ecommerce.project.payload.CategoryDTO;
 import com.ecommerce.project.payload.CategoryResponse;
@@ -73,7 +73,7 @@ public class CategoryServiceImpl implements  CategoryService{
 //        categoryRepository.delete(category);
 //        return "category deleted";
         Category savedcategory = categoryRepository.findById(categoryId).orElseThrow(()->
-                new  ResourceNotFountException("Category","CategoryId",categoryId));
+                new  ResourceNotFoundException("Category","CategoryId",categoryId));
         categoryRepository.delete(savedcategory);
         return modelMapper.map(savedcategory, CategoryDTO.class);
     }
@@ -93,7 +93,7 @@ public class CategoryServiceImpl implements  CategoryService{
 //        }
         Category category = modelMapper.map(categoryDTO, Category.class);
         Category savedcategory = categoryRepository.findById(Id).orElseThrow(()->
-                        new ResourceNotFountException("Category","CategoryId",Id));
+                        new ResourceNotFoundException("Category","CategoryId",Id));
         savedcategory.setCategoryName(category.getCategoryName());
         return modelMapper.map(categoryRepository.save(savedcategory), CategoryDTO.class);
 
