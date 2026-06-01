@@ -26,5 +26,6 @@ public class Cart {
     @Getter
     @Setter
     @OneToMany(mappedBy = "cart", cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE},orphanRemoval = true)
+    @ToString.Exclude
     private List<CartItem> cartItems= new ArrayList<>();
 }

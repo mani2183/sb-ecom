@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -22,5 +23,6 @@ public class Category {
     private String categoryName;
 
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Product> products;
 }
